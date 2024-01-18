@@ -1,0 +1,634 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Brain AG - API",
+    "description": "This is the documentation of the Brain AG API based on the OpenAPI 3.1 specification.  ",
+    "contact": {
+      "email": "caionunes3000@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4005"
+    }
+  ],
+  "tags": [
+    {
+      "name": "dashboard",
+      "description": "Access to dashboard data"
+    },
+    {
+      "name": "producer",
+      "description": "All operations concerning agriculture producers"
+    }
+  ],
+  "paths": {
+    "/dashboard": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get resumed data for dashboard",
+        "description": "Get resumed data for dashboard",
+        "operationId": "getDashboard",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/producer": {
+      "get": {
+        "tags": [
+          "producer"
+        ],
+        "summary": "Get all existing producers",
+        "description": "Get all existing producers",
+        "operationId": "getAllProducers",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProducerResponse" 
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Producer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "producer"
+        ],
+        "summary": "Add a new producer",
+        "description": "Add a new producer",
+        "operationId": "addProducer",
+        "requestBody": {
+          "description": "Create a new producer",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProducerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProducerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/producer/{id}": {
+      "get": {
+        "tags": [
+          "producer"
+        ],
+        "summary": "Find producer by ID",
+        "description": "Returns a single producer",
+        "operationId": "getProducerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of producer to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProducerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Producer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "producer"
+        ],
+        "summary": "Update existing producer",
+        "description": "Update an existing producer",
+        "operationId": "updateProducer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of producer to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update an existing producer",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProducerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProducerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "producer"
+        ],
+        "summary": "Deletes a producer",
+        "description": "delete a producer",
+        "operationId": "deleteProducer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of producer to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Producer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProducerRequest": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "$ref": "#/components/schemas/EntityRequest"
+          },
+          "farm": {
+            "$ref": "#/components/schemas/FarmRequest"
+          }
+        }
+      },
+      "ProducerResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "entityId": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "entity": {
+            "$ref": "#/components/schemas/EntityResponse"
+          },
+          "farmId": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "farm": {
+            "$ref": "#/components/schemas/FarmResponse"
+          },
+          "createdAt": {
+            "type": "string",
+            "examples": [
+              "2024-01-01T01:01:01.000Z"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "examples": [
+              "2024-01-01T01:01:01.000Z"
+            ]
+          }
+        }
+      },
+      "EntityRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "examples": [
+              "John Doe"
+            ]
+          },
+          "cpfCnpj": {
+            "type": "string",
+            "examples": [
+              1234567891
+            ]
+          }
+        }
+      },
+      "EntityResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "name": {
+            "type": "string",
+            "examples": [
+              "John Doe"
+            ]
+          },
+          "cpfCnpj": {
+            "type": "string",
+            "examples": [
+              1234567891
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "examples": [
+              "2024-01-01T01:01:01.000Z"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "examples": [
+              "2024-01-01T01:01:01.000Z"
+            ]
+          }
+        }
+      },
+      "FarmRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "examples": [
+              "John's Farm"
+            ]
+          },
+          "city": {
+            "type": "string",
+            "examples": [
+              "São Paulo"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "examples": [
+              "São Paulo"
+            ]
+          },
+          "totalArea": {
+            "type": "number",
+            "examples": [
+              100
+            ]
+          },
+          "arableArea": {
+            "type": "number",
+            "examples": [
+              30
+            ]
+          },
+          "vegetationArea": {
+            "type": "number",
+            "examples": [
+              20
+            ]
+          },
+          "plantedCrops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FarmPlantedCropRequest"
+            }
+          }
+        }
+      },
+      "FarmResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "name": {
+            "type": "string",
+            "examples": [
+              "John's Farm"
+            ]
+          },
+          "city": {
+            "type": "string",
+            "examples": [
+              "São Paulo"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "examples": [
+              "São Paulo"
+            ]
+          },
+          "totalArea": {
+            "type": "number",
+            "examples": [
+              100
+            ]
+          },
+          "arableArea": {
+            "type": "number",
+            "examples": [
+              30
+            ]
+          },
+          "vegetationArea": {
+            "type": "number",
+            "examples": [
+              20
+            ]
+          },
+          "plantedCrops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FarmPlantedCropResponse"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "examples": [
+              "2024-01-01T01:01:01.000Z"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "examples": [
+              "2024-01-01T01:01:01.000Z"
+            ]
+          }
+        }
+      },
+      "FarmPlantedCropRequest": {
+        "type": "object",
+        "properties": {
+          "plantedCrop": {
+            "type": "string",
+            "enum": [
+              "SOY",
+              "CORN",
+              "COTTON",
+              "COFFEE",
+              "SUGARCANE"
+            ]
+          }
+        }
+      },
+      "FarmPlantedCropResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "farmId": {
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "plantedCrop": {
+            "type": "string",
+            "enum": [
+              "SOY",
+              "CORN",
+              "COTTON",
+              "COFFEE",
+              "SUGARCANE"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "examples": [
+              "2024-01-01T01:01:01.000Z"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "examples": [
+              "2024-01-01T01:01:01.000Z"
+            ]
+          }
+        }
+      },
+      "DashboardResponse": {
+        "type": "object",
+        "properties": {
+          "totalFarms": {
+            "type": "integer",
+            "examples": [
+              30
+            ]
+          },
+          "totalArea": {
+            "type": "number",
+            "examples": [
+              100
+            ]
+          },
+          "farmsPerState": {
+            "type": "object",
+            "properties": {
+              "stateName": {
+                "type": "number",
+                "examples": [
+                  1
+                ]
+              }
+            }
+          },
+          "farmsPerPlantedCrop": {
+            "type": "object",
+            "properties": {
+              "plantedCropName": {
+                "type": "number",
+                "examples": [
+                  1
+                ]
+              }
+            }
+          },
+          "farmsPerUsedArea": {
+            "type": "object",
+            "properties": {
+              "arableArea": {
+                "type": "number",
+                "examples": [
+                  1
+                ]
+              },
+              "vegetationArea": {
+                "type": "number",
+                "examples": [
+                  1
+                ]
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "examples": [
+              "DUPLICATE_KEY"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "examples": [
+              {
+                "Duplicate field value": "cpfCnpj"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

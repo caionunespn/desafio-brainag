@@ -1,0 +1,23 @@
+FROM node:18
+
+WORKDIR /usr/src/api
+
+ENV NODE_ENV DEVELOPMENT
+
+COPY package.json yarn.lock ./
+
+COPY . .
+
+RUN ls -a
+RUN yarn global add dotenv-cli
+RUN yarn install
+
+ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/wait-for-it.sh
+RUN chmod +x /usr/wait-for-it.sh
+
+EXPOSE 4005
+
+COPY entrypoint.sh /usr/src/api/entrypoint.sh
+RUN chmod +x /usr/src/api/entrypoint.sh
+
+CMD ["/usr/src/api/entrypoint.sh"]

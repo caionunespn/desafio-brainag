@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Entity {
+  id Int @id @default(autoincrement())
+  name String
+  cpfCnpj String @unique
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  producer Producer?
+}
+
+enum FarmPlantedCropType {
+  SOY
+  CORN
+  COTTON
+  COFFEE
+  SUGARCANE
+}
+
+model Farm {
+  id Int @id @default(autoincrement())
+  name String
+  city String
+  state String
+  totalArea Float 
+  arableArea Float
+  vegetationArea Float
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  producer Producer?
+  plantedCrops FarmPlantedCrop[]
+}
+
+model FarmPlantedCrop {
+  id Int @id @default(autoincrement())
+  farm Farm @relation(fields: [farmId], references: [id])
+  farmId Int
+  plantedCrop FarmPlantedCropType
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model Producer {
+  id Int @id @default(autoincrement())
+  entity Entity @relation(fields: [entityId], references: [id])
+  entityId Int @unique
+  farm Farm @relation(fields: [farmId], references: [id])
+  farmId Int @unique()
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
